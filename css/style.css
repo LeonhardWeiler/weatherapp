@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/* *, */
+/* *::before, */
+/* *::after { */
+/*   box-sizing: border-box; */
+/* } */
+
+p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+* {
+  font-family: "Inter",sans-serif;
+}
+
+header {
+  margin-block: 3rem;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timeline {
+  margin-block: 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+.line {
+  min-width: 20rem;
+  width: 70%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-flow: row;
+  align-items: center;
+  position: relative;
+}
+
+.start-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #000;
+  position: relative;
+}
+
+.line::before {
+  content: "";
+  top: 78%;
+  left: 8%;
+  height: 1.5px;
+  width: 84%;
+  background-color: #000;
+  position: absolute;
+}
+
+.time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-number {
+  font-size: 0.7rem;
+}
+
+.line-v {
+  height: 8px;
+  width: 1.5px;
+  background-color: #000;
+}
+
+.end-arrow {
+  width: 8px;
+  height: 8px;
+  position: relative;
+}
+
+.end-arrow::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 1.2px;
+  height: 8px;
+  background-color: #000;
+}
+
+.end-arrow::after {
+  content: "";
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 1.2px;
+  height: 8px;
+  background-color: #000;
+}
+
+.city-preview-box {
+  background-color: #F9F9F9;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.city-preview {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-flow: row;
+  align-items: center;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  justify-self: flex-start;
+}
+
+.line-tmp {
+  height: 1.5px;
+  justify-self: center;
+  background-color: #000;
+  min-width: 4rem;
+  width: 80%;
+  position: relative;
+  --line-offset: 80%;
+}
+
+.line-tmp::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: 0;
+  left: var(--line-offset);
+  width: 1.5px;
+  height: 10px;
+  background-color: #000;
+}
+
+.next-day-container {
+  display: grid;
+  grid-template-columns: repeat(5, max-content);
+  grid-auto-flow: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem !important;
+}
+
+.next-days {
+  margin-block: 3rem !important;
+}
+
+main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.city-preview > .min-tmp {
+  justify-self: flex-end;
+  margin-right: 0.8rem;
+}
+
+.city-preview > .max-tmp {
+  margin-left: 0.8rem;
+}
+
+.subtitle {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+}
+
+.subtitle > p {
+  margin: 0;
+}
+
+.text-xl {
+  font-size: 8rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.text-l {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.day {
+  justify-self: flex-end;
+  margin: 0;
+}
+
+footer {
+  margin-block: 3rem;
+}
+
+.other-city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-auto-flow: row;
+  align-items: center;
+  gap: 0.75rem;
+}
