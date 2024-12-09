@@ -1,22 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-/* *, */
-/* *::before, */
-/* *::after { */
-/*   box-sizing: border-box; */
-/* } */
+:root {
+  --font-family: 'Inter', sans-serif;
+
+  --font-size-small: 0.7rem;
+  --font-size-medium: 2rem;
+  --font-size-large: 8rem;
+  --font-size-xlarge: 2rem;
+
+  --color-black: #000;
+  --color-light-gray: #F9F9F9;
+
+  --spacing-small: 0.8rem;
+  --spacing-medium: 1rem;
+  --spacing-large: 1.5rem;
+  --spacing-xlarge: 3rem;
+  --spacing-xxlarge: 2rem;
+}
+
+* {
+  font-family: var(--font-family);
+}
 
 p {
   margin: 0 !important;
   padding: 0 !important;
 }
 
-* {
-  font-family: "Inter",sans-serif;
-}
-
 header {
-  margin-block: 3rem;
+  margin-block: var(--spacing-xxlarge);
 }
 
 .title {
@@ -25,8 +37,13 @@ header {
   align-items: center;
 }
 
+.title > p {
+  font-size: 1.25rem;
+  margin-right: 1.25rem !important;
+}
+
 .timeline {
-  margin-block: 3rem;
+  margin-block: var(--spacing-xlarge);
   display: flex;
   justify-content: center;
 }
@@ -45,7 +62,7 @@ header {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background-color: #000;
+  background-color: var(--color-black);
   position: relative;
 }
 
@@ -55,7 +72,7 @@ header {
   left: 8%;
   height: 1.5px;
   width: 84%;
-  background-color: #000;
+  background-color: var(--color-black);
   position: absolute;
 }
 
@@ -66,13 +83,13 @@ header {
 }
 
 .time-number {
-  font-size: 0.7rem;
+  font-size: var(--font-size-small);
 }
 
 .line-v {
   height: 8px;
   width: 1.5px;
-  background-color: #000;
+  background-color: var(--color-black);
 }
 
 .end-arrow {
@@ -89,7 +106,7 @@ header {
   transform: translate(-50%, -50%) rotate(-45deg);
   width: 1.2px;
   height: 8px;
-  background-color: #000;
+  background-color: var(--color-black);
 }
 
 .end-arrow::after {
@@ -100,13 +117,13 @@ header {
   transform: translate(-50%, -50%) rotate(45deg);
   width: 1.2px;
   height: 8px;
-  background-color: #000;
+  background-color: var(--color-black);
 }
 
 .city-preview-box {
-  background-color: #F9F9F9;
+  background-color: var(--color-light-gray);
   border-radius: 10px;
-  padding: 1rem;
+  padding: var(--spacing-medium);
 }
 
 .city-preview {
@@ -125,7 +142,7 @@ header {
 .line-tmp {
   height: 1.5px;
   justify-self: center;
-  background-color: #000;
+  background-color: var(--color-black);
   min-width: 4rem;
   width: 80%;
   position: relative;
@@ -141,7 +158,7 @@ header {
   left: var(--line-offset);
   width: 1.5px;
   height: 10px;
-  background-color: #000;
+  background-color: var(--color-black);
 }
 
 .next-day-container {
@@ -150,12 +167,13 @@ header {
   grid-auto-flow: row;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem !important;
+  gap: var(--spacing-small);
+  margin-bottom: var(--spacing-xxlarge) !important;
 }
 
 .next-days {
-  margin-block: 3rem !important;
+  margin-top: var(--spacing-xlarge) !important;
+  margin-bottom: var(--spacing-large) !important;
 }
 
 main {
@@ -166,17 +184,17 @@ main {
 
 .city-preview > .min-tmp {
   justify-self: flex-end;
-  margin-right: 0.8rem;
+  margin-right: var(--spacing-small);
 }
 
 .city-preview > .max-tmp {
-  margin-left: 0.8rem;
+  margin-left: var(--spacing-small);
 }
 
 .subtitle {
   display: flex;
   justify-content: space-between;
-  font-size: 2rem;
+  font-size: var(--font-size-medium);
 }
 
 .subtitle > p {
@@ -184,13 +202,13 @@ main {
 }
 
 .text-xl {
-  font-size: 8rem;
+  font-size: var(--font-size-large);
   font-weight: 800;
   margin: 0;
 }
 
 .text-l {
-  font-size: 2rem;
+  font-size: var(--font-size-xlarge);
   font-weight: 700;
   margin: 0;
 }
@@ -201,7 +219,7 @@ main {
 }
 
 footer {
-  margin-block: 3rem;
+  margin-block: var(--spacing-xlarge);
 }
 
 .other-city-grid {
@@ -211,3 +229,4 @@ footer {
   align-items: center;
   gap: 0.75rem;
 }
+
