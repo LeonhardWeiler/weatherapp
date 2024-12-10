@@ -37,6 +37,27 @@ header {
   align-items: center;
 }
 
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.description {
+  font-weight: 400;
+}
+
+.city {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.icon-heading {
+  width: 10rem !important;
+  height: 10rem !important;
+  transform: translateX(25%);
+}
+
 .title > p {
   font-size: 1.25rem;
   margin-right: 1.25rem !important;
@@ -56,6 +77,10 @@ header {
   grid-auto-flow: row;
   align-items: center;
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .start-dot {
@@ -194,6 +219,7 @@ main {
 .subtitle {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: var(--font-size-medium);
 }
 
@@ -216,6 +242,11 @@ main {
 .day {
   justify-self: flex-end;
   margin: 0;
+
+  @media (max-width: 768px) {
+    margin-right: var(--spacing-xxlarge);
+    justify-self: flex-start;
+  }
 }
 
 footer {
