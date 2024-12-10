@@ -45,6 +45,7 @@ header {
 
 .description {
   font-weight: 400;
+  text-align: right;
 }
 
 .city {
