@@ -122,14 +122,12 @@ const city3ImgDay2 = document.querySelector('.city-3-img-day-2');
 
 const API_KEY = "2fa73590fd8b5a4c6e68098ad5625395";
 
-// Formatierungsfunktion für die Zeit
 function formatTime(unixTimestamp) {
   const date = new Date(unixTimestamp * 1000);
   const hours = Math.floor(date.getHours());
-  return `${hours < 10 ? '0' : ''}${hours}`; // Stunden im Format HH zurückgeben
+  return `${hours < 10 ? '0' : ''}${hours}`;
 }
 
-// Funktion, um das aktuelle Wetter zu aktualisieren
 function updateCurrentWeather(weather, tempElem, imgElem, nameElem, descElem, timeElem) {
   const temp = Math.round(weather.main.temp);
   const desc = weather.weather[0].description;
@@ -137,7 +135,6 @@ function updateCurrentWeather(weather, tempElem, imgElem, nameElem, descElem, ti
   const name = weather.name;
   const time = formatTime(weather.dt);
 
-  // Die Elemente für die spezifische Stadt aktualisieren
   tempElem.textContent = `${temp}°C`;
   nameElem.textContent = name;
   descElem.textContent = desc;
@@ -147,7 +144,6 @@ function updateCurrentWeather(weather, tempElem, imgElem, nameElem, descElem, ti
   console.log(`Aktuelles Wetter für ${name} aktualisiert.`);
 }
 
-// Funktion, um die Wetterdaten einer Stadt abzurufen
 function fetchWeather(city, tempElem, imgElem, nameElem, descElem, timeElem) {
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`;
 
@@ -165,7 +161,6 @@ function fetchWeather(city, tempElem, imgElem, nameElem, descElem, timeElem) {
     });
 }
 
-// Funktion, um die Vorhersage für eine Stadt abzurufen
 function fetchForecast(city) {
   const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&APPID=${API_KEY}`;
 
@@ -183,7 +178,6 @@ function fetchForecast(city) {
     });
 }
 
-// Funktion, um die 5-Tages-Vorhersage zu aktualisieren
 function updateForecast(forecast) {
   const forecasts = forecast.list.slice(0, 5);
 
@@ -204,6 +198,6 @@ function updateForecast(forecast) {
   });
 }
 
-fetchWeather("Klagenfurt", tempCurrent, imgCurrent, nameCurrent, descCurrent, timeCurrent);
-fetchForecast("Klagenfurt");
+fetchWeather("Villach", tempCurrent, imgCurrent, nameCurrent, descCurrent, timeCurrent);
+fetchForecast("Villach");
 
