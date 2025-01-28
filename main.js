@@ -165,6 +165,8 @@ function fetchForecast(city) {
     .then((forecast) => {
       if (forecast.cod === "200") {
         updateForecast(forecast);
+        updateWeatherForDays(forecast.list);
+        updateWeekdays();
         console.log(forecast);
       } else {
         console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
@@ -195,6 +197,81 @@ function updateForecast(forecast) {
   });
 }
 
-fetchWeather("Villach");
-fetchForecast("Villach");
+function getWeekdays() {
+  const weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+  const today = new Date();
+  const nextDays = [];
 
+  for (let i = 1; i <= 6; i++) {
+    const nextDay = new Date(today);
+    nextDay.setDate(today.getDate() + i);
+    nextDays.push(weekdays[nextDay.getDay()]);
+  }
+
+  return nextDays;
+}
+
+function updateWeekdays() {
+  const days = getWeekdays();
+
+  days.forEach((day, index) => {
+    const dayElem = document.querySelector(`.day-${index + 1}`);
+    if (dayElem) {
+      dayElem.textContent = day;
+    }
+  });
+}
+
+function groupForecastByDay(forecastList) {
+  const grouped = {};
+
+  forecastList.forEach((item) => {
+    const date = new Date(item.dt * 1000).toISOString().split("T")[0];
+    if (!grouped[date]) {
+      grouped[date] = [];
+    }
+    grouped[date].push(item.main.temp);
+  });
+
+  return grouped;
+}
+
+function calculateDailyStats(groupedData) {
+  return Object.entries(groupedData).map(([date, temps]) => {
+    const sortedTemps = temps.sort((a, b) => a - b);
+    const min = Math.min(...temps);
+    const max = Math.max(...temps);
+    const median =
+      sortedTemps.length % 2 === 0
+        ? (sortedTemps[sortedTemps.length / 2 - 1] + sortedTemps[sortedTemps.length / 2]) / 2
+        : sortedTemps[Math.floor(sortedTemps.length / 2)];
+
+    return { date, min, max, median };
+  });
+}
+
+function updateWeatherForDays(forecastList) {
+  const groupedData = groupForecastByDay(forecastList);
+  const dailyStats = calculateDailyStats(groupedData);
+  const weekdays = getWeekdays();
+
+  dailyStats.slice(0, 6).forEach((stats, index) => {
+    const minElem = document.querySelector(`.min-temp-day-${index + 1}`);
+    const maxElem = document.querySelector(`.max-temp-day-${index + 1}`);
+    const medElem = document.querySelector(`.med-temp-day-${index + 1}`);
+    const dayElem = document.querySelector(`.day-${index + 1}`);
+
+    if (minElem && medElem && maxElem && dayElem) {
+      const offset = ((stats.median - stats.min) / (stats.max - stats.min)) * 100;
+
+      dayElem.textContent = weekdays[index];
+      minElem.textContent = `${Math.round(stats.min)}°C`;
+      maxElem.textContent = `${Math.round(stats.max)}°C`;
+
+      medElem.style.setProperty('--line-offset', `${offset}%`);
+    }
+  });
+}
+
+fetchWeather("Klagenfurt");
+fetchForecast("Klagenfurt");

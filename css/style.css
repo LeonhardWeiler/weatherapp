@@ -197,7 +197,90 @@ main {
   min-width: 4rem;
   width: 80%;
   position: relative;
-  --line-offset: 80%;
+}
+
+.med-temp-day-1 {
+  --line-offset: 60%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: 0;
+    left: var(--line-offset);
+    width: 1.5px;
+    height: 10px;
+    background-color: var(--color-black);
+  }
+}
+
+.med-temp-day-2 {
+  --line-offset: 40%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: 0;
+    left: var(--line-offset);
+    width: 1.5px;
+    height: 10px;
+    background-color: var(--color-black);
+  }
+}
+
+.med-temp-day-3 {
+  --line-offset: 20%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: 0;
+    left: var(--line-offset);
+    width: 1.5px;
+    height: 10px;
+    background-color: var(--color-black);
+  }
+}
+
+.med-temp-day-4 {
+  --line-offset: 0%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: 0;
+    left: var(--line-offset);
+    width: 1.5px;
+    height: 10px;
+    background-color: var(--color-black);
+  }
+}
+
+.med-temp-day-5 {
+  --line-offset: 0%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: 0;
+    left: var(--line-offset);
+    width: 1.5px;
+    height: 10px;
+    background-color: var(--color-black);
+  }
+}
+
+.med-temp-day-6 {
+  --line-offset: 0%;
 
   &::before {
     content: "";
