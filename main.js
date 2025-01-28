@@ -4,26 +4,6 @@ const nameCurrent = document.querySelector('.name-current');
 const descCurrent = document.querySelector('.desc-current');
 const timeCurrent = document.querySelector('.time-current');
 
-const imgCurrent1 = document.querySelector('.img-current-1');
-const tempCurrent1 = document.querySelector('.temp-current-1');
-const timeCurrent1 = document.querySelector('.time-current-1');
-
-const imgCurrent2 = document.querySelector('.img-current-2');
-const tempCurrent2 = document.querySelector('.temp-current-2');
-const timeCurrent2 = document.querySelector('.time-current-2');
-
-const imgCurrent3 = document.querySelector('.img-current-3');
-const tempCurrent3 = document.querySelector('.temp-current-3');
-const timeCurrent3 = document.querySelector('.time-current-3');
-
-const imgCurrent4 = document.querySelector('.img-current-4');
-const tempCurrent4 = document.querySelector('.temp-current-4');
-const timeCurrent4 = document.querySelector('.time-current-4');
-
-const imgCurrent5 = document.querySelector('.img-current-5');
-const tempCurrent5 = document.querySelector('.temp-current-5');
-const timeCurrent5 = document.querySelector('.time-current-5');
-
 //-----------------------------------------------------------
 
 const day1 = document.querySelector('.day-1');
@@ -128,30 +108,46 @@ function formatTime(unixTimestamp) {
   return `${hours < 10 ? '0' : ''}${hours}`;
 }
 
-function updateCurrentWeather(weather, tempElem, imgElem, nameElem, descElem, timeElem) {
+function updateCurrentWeather(weather) {
   const temp = Math.round(weather.main.temp);
   const desc = weather.weather[0].description;
   const icon = weather.weather[0].icon;
   const name = weather.name;
   const time = formatTime(weather.dt);
 
-  tempElem.textContent = `${temp}°C`;
-  nameElem.textContent = name;
-  descElem.textContent = desc;
-  timeElem.textContent = time;
-  imgElem.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+  const tempElem = document.querySelectorAll('.temp-current');
+  const imgElem = document.querySelectorAll('.img-current');
+  const nameElem = document.querySelectorAll('.name-current');
+  const descElem = document.querySelectorAll('.desc-current');
+  const timeElem = document.querySelectorAll('.time-current');
 
-  console.log(`Aktuelles Wetter für ${name} aktualisiert.`);
+  tempElem.forEach((item) => {
+    item.textContent = `${temp}°C`;
+  });
+  nameElem.forEach((item) => {
+    item.textContent = name;
+  });
+  descElem.forEach((item) => {
+    item.textContent = desc;
+  });
+  timeElem.forEach((item) => {
+    item.textContent = time;
+  });
+  imgElem.forEach((item) => {
+    item.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+    item.alt = desc;
+  });
 }
 
-function fetchWeather(city, tempElem, imgElem, nameElem, descElem, timeElem) {
+function fetchWeather(city) {
   const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`;
 
   fetch(apiUrl)
     .then((response) => response.json())
     .then((weather) => {
       if (weather.cod === 200) {
-        updateCurrentWeather(weather, tempElem, imgElem, nameElem, descElem, timeElem);
+        updateCurrentWeather(weather);
+        console.log(weather);
       } else {
         console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
       }
@@ -169,6 +165,7 @@ function fetchForecast(city) {
     .then((forecast) => {
       if (forecast.cod === "200") {
         updateForecast(forecast);
+        console.log(forecast);
       } else {
         console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
       }
@@ -198,6 +195,6 @@ function updateForecast(forecast) {
   });
 }
 
-fetchWeather("Villach", tempCurrent, imgCurrent, nameCurrent, descCurrent, timeCurrent);
+fetchWeather("Villach");
 fetchForecast("Villach");
 
