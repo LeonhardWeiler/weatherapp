@@ -94,7 +94,7 @@ function updateCurrentWeather(weather) {
     item.textContent = time;
   });
   imgElem.forEach((item) => {
-    item.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+    item.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
     item.alt = desc;
   });
 }
@@ -150,19 +150,19 @@ function updateForecast(forecast) {
     const timeElem = document.querySelector(`.time-current-${index + 1}`);
 
     if (imgElem && tempElem && timeElem) {
-      imgElem.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+      imgElem.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
       tempElem.textContent = `${temp}°C`;
       timeElem.textContent = time;
     }
   });
 }
 
-function getWeekdays() {
+function getWeekdays(amount) {
   const weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
   const today = new Date();
   const nextDays = [];
 
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= amount; i++) {
     const nextDay = new Date(today);
     nextDay.setDate(today.getDate() + i);
     nextDays.push(weekdays[nextDay.getDay()]);
@@ -172,7 +172,7 @@ function getWeekdays() {
 }
 
 function updateWeekdays() {
-  const days = getWeekdays();
+  const days = getWeekdays(6);
 
   days.forEach((day, index) => {
     const dayElem = document.querySelector(`.day-${index + 1}`);
@@ -213,7 +213,7 @@ function calculateDailyStats(groupedData) {
 function updateWeatherForDays(forecastList) {
   const groupedData = groupForecastByDay(forecastList);
   const dailyStats = calculateDailyStats(groupedData);
-  const weekdays = getWeekdays();
+  const weekdays = getWeekdays(6);
 
   dailyStats.slice(0, 6).forEach((stats, index) => {
     const minElem = document.querySelector(`.min-temp-day-${index + 1}`);
@@ -233,14 +233,15 @@ function updateWeatherForDays(forecastList) {
   });
 }
 
-function fetchWeatherOtherCities(city) {
-  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`;
+function fetchWeatherOtherCities(cityArray) {
+  cityArray.forEach((city, index) => {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`;
 
-  fetch(apiUrl)
+    fetch(apiUrl)
     .then((response) => response.json())
     .then((weather) => {
       if (weather.cod === 200) {
-        updateOtherCitiesCurrentWeather(weather);
+        updateOtherCitiesCurrentWeather(weather, index + 1);
         console.log(weather);
       } else {
         console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
@@ -249,25 +250,56 @@ function fetchWeatherOtherCities(city) {
     .catch((error) => {
       console.error("API Fehler:", error);
     });
+  });
 }
 
 function fetchForecastOtherCities(city) {
-  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&APPID=${API_KEY}`;
+  city.forEach((city, index) => {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&APPID=${API_KEY}`;
 
-  fetch(apiUrl)
-  .then((response) => response.json())
-  .then((forecast) => {
-    if (forecast.cod === "200") {
-      updateOtherCitiesForecast(forecast);
-      updateWeatherForDaysOtherCities(forecast.list);
-      updateOtherWeekdays();
-      console.log(forecast);
-    } else {
-      console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
-    }
-  })
-  .catch((error) => {
-    console.error("API Fehler:", error);
+    fetch(apiUrl)
+    .then((response) => response.json())
+    .then((forecast) => {
+      if (forecast.cod === "200") {
+
+        updateOtherCitiesForecast(forecast, index + 1);
+
+        console.log(forecast);
+      } else {
+        console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
+      }
+    })
+    .catch((error) => {
+      console.error("API Fehler:", error);
+    });
+  });
+}
+
+function updateOtherCitiesForecast(forecast, id) {
+  const forecasts = forecast.list.slice(0, 2);
+  const weekdays = getWeekdays(2);
+
+  forecasts.forEach((item, index) => {
+    const icon = item.weather[0].icon;
+    const desc = item.weather[0].description;
+    const maxTemp = Math.round(item.main.temp_max);
+    const minTemp = Math.round(item.main.temp_min);
+    const medTemp = Math.round((maxTemp + minTemp) / 2);
+
+    const imgElem = document.querySelector(`.city-${id}-img-day-${index + 1}`);
+    const maxTempElem = document.querySelector(`.city-${id}-max-temp-day-${index + 1}`);
+    const medTempElem = document.querySelector(`.city-${id}-med-temp-day-${index + 1}`);
+    const minTempElem = document.querySelector(`.city-${id}-min-temp-day-${index + 1}`);
+    const dayElem = document.querySelector(`.city-${id}-day-${index + 1}`);
+
+    const offset = ((medTemp - minTemp) / (maxTemp - minTemp)) * 100;
+    medTempElem.style.setProperty('--line-offset', `${offset}%`);
+
+    imgElem.src = `https://openweathermap.org/img/wn/${icon}.png`;
+    imgElem.alt = desc;
+    maxTempElem.textContent = `${maxTemp}°C`;
+    minTempElem.textContent = `${minTemp}°C`;
+    dayElem.textContent = weekdays[index];
   });
 }
 
@@ -278,39 +310,30 @@ function updateOtherCitiesCurrentWeather(weather, id) {
   const maxTemp = Math.round(weather.main.temp_max);
   const minTemp = Math.round(weather.main.temp_min);
   const medTemp = Math.round((maxTemp + minTemp) / 2);
+  const desc = weather.weather[0].description;
 
-  const tempElem = document.querySelectorAll(`.city-${id}-temp-current`);
-  const imgElem = document.querySelectorAll(`.city-${id}-img-current`);
-  const minTempElem = document.querySelectorAll(`.city-${id}-min-temp-current`);
-  const medTempElem = document.querySelectorAll(`.city-${id}-med-temp-current`);
-  const maxTempElem = document.querySelectorAll(`.city-${id}-max-temp-current`);
-  const nameElem = document.querySelectorAll(`city-${id}`);
+  const tempElem = document.querySelector(`.city-${id}-temp-current`);
+  const imgElem = document.querySelector(`.city-${id}-img-current`);
+  const minTempElem = document.querySelector(`.city-${id}-min-temp-current`);
+  const medTempElem = document.querySelector(`.city-${id}-med-temp-current`);
+  const maxTempElem = document.querySelector(`.city-${id}-max-temp-current`);
+  const nameElem = document.querySelector(`.city-${id}`);
 
-  tempElem.forEach((item) => {
-    item.textContent = `${temp}°C`;
-  });
-  nameElem.forEach((item) => {
-    item.textContent = name;
-  });
-  minTempElem.forEach((item) => {
-    item.textContent = `${minTemp}`;
-  });
-  medTempElem.forEach((item) => {
-    item.textContent = `${medTemp}`;
-  });
-  maxTempElem.forEach((item) => {
-    item.textContent = `${maxTemp}`;
-  });
+  const offset = ((medTemp - minTemp) / (maxTemp - minTemp)) * 100;
+  medTempElem.style.setProperty('--line-offset', `${offset}%`);
 
-  imgElem.forEach((item) => {
-    item.src = `http://openweathermap.org/img/wn/${icon}.png`;
-    item.alt = desc;
-  });
+  tempElem.textContent = `${temp}°C`;
+  nameElem.textContent = name;
+  minTempElem.textContent = `${minTemp}°C`;
+  maxTempElem.textContent = `${maxTemp}°C`;
+
+  imgElem.src = `https://openweathermap.org/img/wn/${icon}.png`;
+  imgElem.alt = desc;
 }
 
-function fetchOtherCities(city) {
-  fetchWeatherOtherCities(city);
-  fetchForecastOtherCities(city);
+function fetchOtherCities(cityArray) {
+  fetchWeatherOtherCities(cityArray);
+  fetchForecastOtherCities(cityArray);
 }
 
 function fetchCurrentCity(city) {
@@ -318,5 +341,8 @@ function fetchCurrentCity(city) {
   fetchForecast(city);
 }
 
-fetchCurrentCity("Klagenfurt");
+const cityArray = ["Rom", "Washington", "Athen"];
+
+fetchCurrentCity("Tokyo");
+fetchOtherCities(cityArray);
 
