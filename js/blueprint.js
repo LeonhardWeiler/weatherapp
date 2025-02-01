@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wetterapp</title>
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <script src="js/main.js"></script>
-  </head>
-  <body>
+const structure = `
     <header class="container">
       <div class="heading">
         <h1 class="text-xl temp-current"></h1>
@@ -191,7 +180,7 @@
         </div>
       </div>
     </footer>
+`;
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-  </body>
-</html>
+const body = document.querySelector('body');
+body.innerHTML = structure;

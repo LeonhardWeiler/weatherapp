@@ -1,65 +1,3 @@
-const city1 = document.querySelector('.city-1');
-const city1TempCurrent = document.querySelector('.city-1-temp-current');
-
-const city1MinTempCurrent = document.querySelector('.city-1-min-temp-current');
-const city1MedTempCurrent = document.querySelector('.city-1-med-temp-current');
-const city1MaxTempCurrent = document.querySelector('.city-1-max-temp-current');
-const city1ImgCurrent = document.querySelector('.city-1-img-current');
-
-const city1Day1 = document.querySelector('.city-1-day-1');
-const city1MinTempDay1 = document.querySelector('.city-1-min-temp-day-1');
-const city1MedTempDay1 = document.querySelector('.city-1-med-temp-day-1');
-const city1MaxTempDay1 = document.querySelector('.city-1-max-temp-day-1');
-const city1ImgDay1 = document.querySelector('.city-1-img-day-1');
-
-const city1Day2 = document.querySelector('.city-1-day-2');
-const city1MinTempDay2 = document.querySelector('.city-1-min-temp-day-2');
-const city1MedTempDay2 = document.querySelector('.city-1-med-temp-day-2');
-const city1MaxTempDay2 = document.querySelector('.city-1-max-temp-day-2');
-const city1ImgDay2 = document.querySelector('.city-1-img-day-2');
-
-const city2 = document.querySelector('.city-2');
-const city2TempCurrent = document.querySelector('.city-2-temp-current');
-
-const city2MinTempCurrent = document.querySelector('.city-2-min-temp-current');
-const city2MedTempCurrent = document.querySelector('.city-2-med-temp-current');
-const city2MaxTempCurrent = document.querySelector('.city-2-max-temp-current');
-const city2ImgCurrent = document.querySelector('.city-2-img-current');
-
-const city2Day1 = document.querySelector('.city-2-day-1');
-const city2MinTempDay1 = document.querySelector('.city-2-min-temp-day-1');
-const city2MedTempDay1 = document.querySelector('.city-2-med-temp-day-1');
-const city2MaxTempDay1 = document.querySelector('.city-2-max-temp-day-1');
-const city2ImgDay1 = document.querySelector('.city-2-img-day-1');
-
-const city2Day2 = document.querySelector('.city-2-day-2');
-const city2MinTempDay2 = document.querySelector('.city-2-min-temp-day-2');
-const city2MedTempDay2 = document.querySelector('.city-2-med-temp-day-2');
-const city2MaxTempDay2 = document.querySelector('.city-2-max-temp-day-2');
-const city2ImgDay2 = document.querySelector('.city-2-img-day-2');
-
-const city3 = document.querySelector('.city-3');
-const city3TempCurrent = document.querySelector('.city-3-temp-current');
-
-const city3MinTempCurrent = document.querySelector('.city-3-min-temp-current');
-const city3MedTempCurrent = document.querySelector('.city-3-med-temp-current');
-const city3MaxTempCurrent = document.querySelector('.city-3-max-temp-current');
-const city3ImgCurrent = document.querySelector('.city-3-img-current');
-
-const city3Day1 = document.querySelector('.city-3-day-1');
-const city3MinTempDay1 = document.querySelector('.city-3-min-temp-day-1');
-const city3MedTempDay1 = document.querySelector('.city-3-med-temp-day-1');
-const city3MaxTempDay1 = document.querySelector('.city-3-max-temp-day-1');
-const city3ImgDay1 = document.querySelector('.city-3-img-day-1');
-
-const city3Day2 = document.querySelector('.city-3-day-2');
-const city3MinTempDay2 = document.querySelector('.city-3-min-temp-day-2');
-const city3MedTempDay2 = document.querySelector('.city-3-med-temp-day-2');
-const city3MaxTempDay2 = document.querySelector('.city-3-max-temp-day-2');
-const city3ImgDay2 = document.querySelector('.city-3-img-day-2');
-
-//------------------------------------------------------------------------------
-
 const API_KEY = "2fa73590fd8b5a4c6e68098ad5625395";
 
 function formatTime(unixTimestamp) {
@@ -318,6 +256,7 @@ function updateOtherCitiesCurrentWeather(weather, id) {
   const medTempElem = document.querySelector(`.city-${id}-med-temp-current`);
   const maxTempElem = document.querySelector(`.city-${id}-max-temp-current`);
   const nameElem = document.querySelector(`.city-${id}`);
+  const todayElem = document.querySelector(`.city-${id}-day-0`);
 
   const offset = ((medTemp - minTemp) / (maxTemp - minTemp)) * 100;
   medTempElem.style.setProperty('--line-offset', `${offset}%`);
@@ -326,6 +265,7 @@ function updateOtherCitiesCurrentWeather(weather, id) {
   nameElem.textContent = name;
   minTempElem.textContent = `${minTemp}°C`;
   maxTempElem.textContent = `${maxTemp}°C`;
+  todayElem.textContent = "Heute";
 
   imgElem.src = `https://openweathermap.org/img/wn/${icon}.png`;
   imgElem.alt = desc;
