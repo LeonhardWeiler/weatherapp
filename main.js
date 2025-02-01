@@ -1,43 +1,3 @@
-const tempCurrent = document.querySelector('.temp-current');
-const imgCurrent = document.querySelector('.img-current');
-const nameCurrent = document.querySelector('.name-current');
-const descCurrent = document.querySelector('.desc-current');
-const timeCurrent = document.querySelector('.time-current');
-
-//-----------------------------------------------------------
-
-const day1 = document.querySelector('.day-1');
-const minTempDay1 = document.querySelector('.min-temp-day-1');
-const medTempDay1 = document.querySelector('.med-temp-day-1');
-const maxTempDay1 = document.querySelector('.max-temp-day-1');
-
-const day2 = document.querySelector('.day-2');
-const minTempDay2 = document.querySelector('.min-temp-day-2');
-const medTempDay2 = document.querySelector('.med-temp-day-2');
-const maxTempDay2 = document.querySelector('.max-temp-day-2');
-
-const day3 = document.querySelector('.day-3');
-const minTempDay3 = document.querySelector('.min-temp-day-3');
-const medTempDay3 = document.querySelector('.med-temp-day-3');
-const maxTempDay3 = document.querySelector('.max-temp-day-3');
-
-const day4 = document.querySelector('.day-4');
-const minTempDay4 = document.querySelector('.min-temp-day-4');
-const medTempDay4 = document.querySelector('.med-temp-day-4');
-const maxTempDay4 = document.querySelector('.max-temp-day-4');
-
-const day5 = document.querySelector('.day-5');
-const minTempDay5 = document.querySelector('.min-temp-day-5');
-const medTempDay5 = document.querySelector('.med-temp-day-5');
-const maxTempDay5 = document.querySelector('.max-temp-day-5');
-
-const day6 = document.querySelector('.day-6');
-const minTempDay6 = document.querySelector('.min-temp-day-6');
-const medTempDay6 = document.querySelector('.med-temp-day-6');
-const maxTempDay6 = document.querySelector('.max-temp-day-6');
-
-//-----------------------------------------------------------
-
 const city1 = document.querySelector('.city-1');
 const city1TempCurrent = document.querySelector('.city-1-temp-current');
 
@@ -273,5 +233,90 @@ function updateWeatherForDays(forecastList) {
   });
 }
 
-fetchWeather("Klagenfurt");
-fetchForecast("Klagenfurt");
+function fetchWeatherOtherCities(city) {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`;
+
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((weather) => {
+      if (weather.cod === 200) {
+        updateOtherCitiesCurrentWeather(weather);
+        console.log(weather);
+      } else {
+        console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
+      }
+    })
+    .catch((error) => {
+      console.error("API Fehler:", error);
+    });
+}
+
+function fetchForecastOtherCities(city) {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&APPID=${API_KEY}`;
+
+  fetch(apiUrl)
+  .then((response) => response.json())
+  .then((forecast) => {
+    if (forecast.cod === "200") {
+      updateOtherCitiesForecast(forecast);
+      updateWeatherForDaysOtherCities(forecast.list);
+      updateOtherWeekdays();
+      console.log(forecast);
+    } else {
+      console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
+    }
+  })
+  .catch((error) => {
+    console.error("API Fehler:", error);
+  });
+}
+
+function updateOtherCitiesCurrentWeather(weather, id) {
+  const temp = Math.round(weather.main.temp);
+  const icon = weather.weather[0].icon;
+  const name = weather.name;
+  const maxTemp = Math.round(weather.main.temp_max);
+  const minTemp = Math.round(weather.main.temp_min);
+  const medTemp = Math.round((maxTemp + minTemp) / 2);
+
+  const tempElem = document.querySelectorAll(`.city-${id}-temp-current`);
+  const imgElem = document.querySelectorAll(`.city-${id}-img-current`);
+  const minTempElem = document.querySelectorAll(`.city-${id}-min-temp-current`);
+  const medTempElem = document.querySelectorAll(`.city-${id}-med-temp-current`);
+  const maxTempElem = document.querySelectorAll(`.city-${id}-max-temp-current`);
+  const nameElem = document.querySelectorAll(`city-${id}`);
+
+  tempElem.forEach((item) => {
+    item.textContent = `${temp}°C`;
+  });
+  nameElem.forEach((item) => {
+    item.textContent = name;
+  });
+  minTempElem.forEach((item) => {
+    item.textContent = `${minTemp}`;
+  });
+  medTempElem.forEach((item) => {
+    item.textContent = `${medTemp}`;
+  });
+  maxTempElem.forEach((item) => {
+    item.textContent = `${maxTemp}`;
+  });
+
+  imgElem.forEach((item) => {
+    item.src = `http://openweathermap.org/img/wn/${icon}.png`;
+    item.alt = desc;
+  });
+}
+
+function fetchOtherCities(city) {
+  fetchWeatherOtherCities(city);
+  fetchForecastOtherCities(city);
+}
+
+function fetchCurrentCity(city) {
+  fetchWeather(city);
+  fetchForecast(city);
+}
+
+fetchCurrentCity("Klagenfurt");
+
