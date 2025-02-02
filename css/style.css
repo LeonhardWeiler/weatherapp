@@ -180,7 +180,6 @@ main {
 
 .next-days {
   margin-top: var(--spacing-xlarge) !important;
-  margin-bottom: var(--spacing-large) !important;
 }
 
 .next-day-container {
@@ -217,7 +216,7 @@ main {
   width: 80%;
   position: relative;
 
-  --line-offset: 0%;
+  --line-offset: 50%;
 
   &::before {
     content: "";
@@ -256,7 +255,8 @@ main {
   background-color: none;
   border-radius: 10px;
   border: 2px solid lightgray;
-  height: 8rem;
+  min-height: 100px;
+  height: 100%;
   width: 100%;
   padding: var(--spacing-medium);
 
@@ -391,3 +391,18 @@ main {
   }
 }
 
+.city-group {
+  display: flex;
+  gap: var(--spacing-small);
+  align-items: center;
+
+  .delete-city-icon {
+    width: 25px;
+    cursor: pointer;
+    transition: transform 100ms;
+
+    &:hover {
+      transform: rotate(10deg);
+    }
+  }
+}

@@ -1,16 +1,22 @@
-import { createStructure } from "./blueprint.js";
-import { fetchCurrentCity } from "./weather.js";
+import { createStructure, addCity } from "./blueprint.js";
+import { fetchCurrentCity, fetchOtherCities } from "./weather.js";
 
 const searchInput = document.querySelector(".search-main");
 const suggestionsContainer = document.querySelector(".suggestions");
 const apiKey = "2fa73590fd8b5a4c6e68098ad5625395";
 let currentSuggestions = [];
+let cities = ["Berlin"];
 
 searchInput.value = "";
 
 if (localStorage.getItem("mainCity")) {
   createStructure();
   fetchCurrentCity(localStorage.getItem("mainCity"));
+
+  for (let i = 0; i < cities.length; i++) {
+    addCity(i);
+  }
+  fetchOtherCities(cities);
 }
 
 async function fetchCities(query) {
@@ -77,5 +83,21 @@ document.addEventListener('keydown', function(event) {
         event.preventDefault();
         document.querySelector('.search-main').focus();
     }
+});
+
+document.querySelectorAll('.delete-city-icon').forEach(icon => {
+  icon.addEventListener('click', function () {
+    const cityBox = this.closest('.city-preview-box');
+    if (!cityBox) return;
+
+    let next = cityBox.nextElementSibling;
+    while (next && !next.classList.contains('city-preview-box') && !next.classList.contains('add-city-box')) {
+      let toRemove = next;
+      next = next.nextElementSibling;
+      toRemove.remove();
+    }
+
+    cityBox.remove();
+  });
 });
 

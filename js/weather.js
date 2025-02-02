@@ -45,7 +45,6 @@ function fetchWeather(city) {
     .then((weather) => {
       if (weather.cod === 200) {
         updateCurrentWeather(weather);
-        console.log(weather);
       } else {
         console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
       }
@@ -65,7 +64,6 @@ function fetchForecast(city) {
         updateForecast(forecast);
         updateWeatherForDays(forecast.list);
         updateWeekdays();
-        console.log(forecast);
       } else {
         console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
       }
@@ -179,8 +177,7 @@ function fetchWeatherOtherCities(cityArray) {
     .then((response) => response.json())
     .then((weather) => {
       if (weather.cod === 200) {
-        updateOtherCitiesCurrentWeather(weather, index + 1);
-        console.log(weather);
+        updateOtherCitiesCurrentWeather(weather, index);
       } else {
         console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
       }
@@ -199,10 +196,7 @@ function fetchForecastOtherCities(city) {
     .then((response) => response.json())
     .then((forecast) => {
       if (forecast.cod === "200") {
-
-        updateOtherCitiesForecast(forecast, index + 1);
-
-        console.log(forecast);
+        updateOtherCitiesForecast(forecast, index);
       } else {
         console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
       }
@@ -229,6 +223,11 @@ function updateOtherCitiesForecast(forecast, id) {
     const medTempElem = document.querySelector(`.city-${id}-med-temp-day-${index + 1}`);
     const minTempElem = document.querySelector(`.city-${id}-min-temp-day-${index + 1}`);
     const dayElem = document.querySelector(`.city-${id}-day-${index + 1}`);
+
+    if (!imgElem || !maxTempElem || !medTempElem || !minTempElem || !dayElem) {
+      console.error("Elemente nicht gefunden");
+      return;
+    }
 
     const offset = ((medTemp - minTemp) / (maxTemp - minTemp)) * 100;
     medTempElem.style.setProperty('--line-offset', `${offset}%`);
@@ -257,6 +256,11 @@ function updateOtherCitiesCurrentWeather(weather, id) {
   const maxTempElem = document.querySelector(`.city-${id}-max-temp-current`);
   const nameElem = document.querySelector(`.city-${id}`);
   const todayElem = document.querySelector(`.city-${id}-day-0`);
+
+  if (!tempElem || !imgElem || !minTempElem || !medTempElem || !maxTempElem || !nameElem || !todayElem) {
+    console.error("Elemente nicht gefunden");
+    return;
+  }
 
   const offset = ((medTemp - minTemp) / (maxTemp - minTemp)) * 100;
   medTempElem.style.setProperty('--line-offset', `${offset}%`);
