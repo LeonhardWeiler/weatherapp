@@ -1,3 +1,4 @@
+export function createStructure() {
 const structure = `
     <header class="container">
       <div class="heading">
@@ -184,3 +185,4 @@ const structure = `
 
 const body = document.querySelector('body');
 body.innerHTML = structure;
+}
