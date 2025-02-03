@@ -170,8 +170,8 @@ document.addEventListener('click', function (event) {
 
     cityBox.remove();
 
-    const cityId = cityBox.dataset.id;
-    cities.splice(cityId, 1);
+    const cityElement = deleteCityIcon.closest('.city-group').querySelector('h2');
+    cities = cities.filter(city => city !== cityElement.textContent);
     localStorage.setItem('cities', JSON.stringify(cities));
   }
 });
