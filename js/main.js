@@ -12,6 +12,8 @@ searchInput.value = "";
 if (localStorage.getItem("mainCity")) {
   createStructure();
   fetchCurrentCity(localStorage.getItem("mainCity"));
+  cities = JSON.parse(localStorage.getItem("cities")) || [];
+  fetchOtherCities(cities);
 
   for (let i = 0; i < cities.length; i++) {
     addCity(i);
@@ -104,17 +106,32 @@ async function checkCityAPI(city) {
   }
 }
 
-document.addEventListener("click", (event) => {
-  if (!event.target.closest(".search-container")) {
-    suggestionsContainer.style.display = "none";
-  }
-});
-
 document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.key === 'k') {
-        event.preventDefault();
-        document.querySelector('.search-main').focus();
+  if (event.ctrlKey && event.key === 'k') {
+    if (document.querySelector('.search-main')) {
+      if (document.activeElement === searchInput) return;
+      event.preventDefault();
+      document.querySelector('.search-main').focus();
     }
+    if (document.querySelector('.add-city-box')) {
+      const selectedCity = inputCity();
+      if (!selectedCity) return;
+      cities.push(selectedCity);
+      localStorage.setItem('cities', JSON.stringify(cities));
+      addCity(cities.length - 1);
+      fetchOtherCities(cities);
+      return;
+    }
+  }
+
+  if (event.ctrlKey && event.key === 'p') {
+    localStorage.removeItem('mainCity');
+    const selectedCity = inputCity();
+    if (!selectedCity) return;
+    localStorage.setItem('mainCity', selectedCity);
+    fetchCurrentCity(selectedCity);
+    return;
+  }
 });
 
 document.addEventListener('click', function (event) {
@@ -123,6 +140,7 @@ document.addEventListener('click', function (event) {
     const selectedCity = inputCity();
     if (!selectedCity) return;
     cities.push(selectedCity);
+    localStorage.setItem('cities', JSON.stringify(cities));
     addCity(cities.length - 1);
     fetchOtherCities(cities);
     return;
@@ -131,7 +149,11 @@ document.addEventListener('click', function (event) {
   const changeCityIcon = event.target.closest('.change-city-icon');
   if (changeCityIcon) {
     localStorage.removeItem('mainCity');
-    window.location.reload();
+    const selectedCity = inputCity();
+    if (!selectedCity) return;
+    localStorage.setItem('mainCity', selectedCity);
+    fetchCurrentCity(selectedCity);
+    return;
   }
 
   const deleteCityIcon = event.target.closest('.delete-city-icon');
@@ -147,6 +169,10 @@ document.addEventListener('click', function (event) {
     }
 
     cityBox.remove();
+
+    const cityId = cityBox.dataset.id;
+    cities.splice(cityId, 1);
+    localStorage.setItem('cities', JSON.stringify(cities));
   }
 });
 
