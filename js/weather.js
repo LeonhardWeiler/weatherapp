@@ -225,7 +225,6 @@ function updateOtherCitiesForecast(forecast, id) {
     const dayElem = document.querySelector(`.city-${id}-day-${index + 1}`);
 
     if (!imgElem || !maxTempElem || !medTempElem || !minTempElem || !dayElem) {
-      console.error("Elemente nicht gefunden");
       return;
     }
 
@@ -258,7 +257,6 @@ function updateOtherCitiesCurrentWeather(weather, id) {
   const todayElem = document.querySelector(`.city-${id}-day-0`);
 
   if (!tempElem || !imgElem || !minTempElem || !medTempElem || !maxTempElem || !nameElem || !todayElem) {
-    console.error("Elemente nicht gefunden");
     return;
   }
 
@@ -284,7 +282,4 @@ export function fetchCurrentCity(city) {
   fetchWeather(city);
   fetchForecast(city);
 }
-
-const cityArray = ["Rom", "Washington", "Athen"];
-const currentCity = "Tokyo";
 

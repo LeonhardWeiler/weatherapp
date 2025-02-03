@@ -158,3 +158,10 @@ export function addCity(id) {
   div.innerHTML = smallCity;
   otherCityGrid.insertBefore(div, otherCityGrid.firstChild);
 }
+
+export function inputCity() {
+  const city = prompt("Please enter a city name");
+  if (!city) return;
+
+  return city;
+}
