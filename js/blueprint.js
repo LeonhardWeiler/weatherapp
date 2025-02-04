@@ -162,7 +162,7 @@ export function addCity(id) {
 export function inputCity(use) {
   const inputStructure = `
     <div class="popup-container">
-      <input type="text" class="popup-input" placeholder="Enter a city name">
+      <input type="text" class="popup-input" placeholder="Enter a city name for ${use}">
       <div class="popup-suggestions"></div>
     </div>
   `;

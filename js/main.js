@@ -130,6 +130,7 @@ document.addEventListener('keydown', async function(event) {
     }
     if (document.querySelector('.add-city-box')) {
       event.preventDefault();
+      if (document.querySelector('.popup-box')) return;
       const selectedCity = inputCity("other");
       if (!selectedCity) return;
       const isValid = await checkCityAPI(selectedCity);
@@ -163,6 +164,7 @@ document.addEventListener('keydown', async function(event) {
 
   if (event.ctrlKey && event.key === 'p') {
     event.preventDefault();
+    if (document.querySelector('.popup-box')) return;
     const selectedCity = inputCity("main");
     if (!selectedCity) return;
     localStorage.removeItem('mainCity');

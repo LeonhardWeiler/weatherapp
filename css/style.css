@@ -421,8 +421,9 @@ main {
   position: absolute;
   top: 5vh;
   left: 50%;
-  width: 50%;
+  width: 70%;
   min-width: 30rem;
+  max-width: 50rem;
   min-height: 5rem;
   transform: translateX(-50%);
   background-color: var(--color-light-gray);
@@ -437,9 +438,26 @@ main {
   }
 }
 
+.popup-suggestions > div:first-child {
+  border-top: 2px solid var(--color-black);
+  padding-top: 0.5rem;
+}
+
+.popup-suggestions div {
+  padding-block: 0.2rem;
+  cursor: pointer;
+  transition: padding-left 100ms;
+
+  &:hover {
+    padding-left: 0.2rem;
+  }
+}
+
 .popup-input {
   border: 0;
   background-color: var(--color-light-gray);
+  font-size: 1.5rem;
+  font-weight: 500;
 
   &:focus {
     outline: none;
