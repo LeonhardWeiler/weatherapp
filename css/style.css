@@ -406,3 +406,43 @@ main {
     }
   }
 }
+
+.popup-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 1.3rem;
+}
+
+.popup-container {
+  position: absolute;
+  top: 5vh;
+  left: 50%;
+  width: 50%;
+  min-width: 30rem;
+  min-height: 5rem;
+  transform: translateX(-50%);
+  background-color: var(--color-light-gray);
+  padding: var(--spacing-medium);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 540px) {
+    width: 90%;
+    min-width: 0;
+  }
+}
+
+.popup-input {
+  border: 0;
+  background-color: var(--color-light-gray);
+
+  &:focus {
+    outline: none;
+    border: 0;
+  }
+}

@@ -159,8 +159,23 @@ export function addCity(id) {
   otherCityGrid.insertBefore(div, otherCityGrid.firstChild);
 }
 
-export function inputCity() {
-  const city = prompt("Please enter a city name");
-  if (!city) return;
-  return city;
+export function inputCity(use) {
+  const inputStructure = `
+    <div class="popup-container">
+      <input type="text" class="popup-input" placeholder="Enter a city name">
+      <div class="popup-suggestions"></div>
+    </div>
+  `;
+
+  const body = document.querySelector('body');
+  const div = document.createElement('div');
+  div.classList.add('popup-box');
+  div.setAttribute('use', use);
+  div.innerHTML = inputStructure;
+  body.appendChild(div);
+
+  document.body.style.overflow = 'hidden';
+
+  const popupInput = document.querySelector('.popup-input');
+  popupInput.focus();
 }
