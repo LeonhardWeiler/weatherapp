@@ -162,6 +162,5 @@ export function addCity(id) {
 export function inputCity() {
   const city = prompt("Please enter a city name");
   if (!city) return;
-
   return city;
 }

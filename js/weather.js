@@ -273,9 +273,48 @@ function updateOtherCitiesCurrentWeather(weather, id) {
   imgElem.alt = desc;
 }
 
+function fetchWeatherNewCity(city, index) {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`;
+
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((weather) => {
+      if (weather.cod === 200) {
+        updateOtherCitiesCurrentWeather(weather, index);
+      } else {
+        console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
+      }
+    })
+    .catch((error) => {
+      console.error("API Fehler:", error);
+    });
+}
+
+function fetchForecastNewCity(city, index) {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&APPID=${API_KEY}`;
+
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((forecast) => {
+      if (forecast.cod === "200") {
+        updateOtherCitiesForecast(forecast, index);
+      } else {
+        console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
+      }
+    })
+    .catch((error) => {
+      console.error("API Fehler:", error);
+    });
+}
+
 export function fetchOtherCities(cityArray) {
   fetchWeatherOtherCities(cityArray);
   fetchForecastOtherCities(cityArray);
+}
+
+export function fetchNewCity(city, index) {
+  fetchWeatherNewCity(city, index);
+  fetchForecastNewCity(city, index);
 }
 
 export function fetchCurrentCity(city) {

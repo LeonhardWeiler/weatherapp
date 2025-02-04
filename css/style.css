@@ -397,7 +397,7 @@ main {
   align-items: center;
 
   .delete-city-icon {
-    width: 25px;
+    width: 22px;
     cursor: pointer;
     transition: transform 100ms;
 

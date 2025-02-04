@@ -1,11 +1,12 @@
 import { createStructure, addCity, inputCity } from "./blueprint.js";
-import { fetchCurrentCity, fetchOtherCities } from "./weather.js";
+import { fetchCurrentCity, fetchOtherCities, fetchNewCity } from "./weather.js";
 
 const searchInput = document.querySelector(".search-main");
 const suggestionsContainer = document.querySelector(".suggestions");
 const apiKey = "2fa73590fd8b5a4c6e68098ad5625395";
 let currentSuggestions = [];
 let cities = [];
+let idCounter = 0;
 
 searchInput.value = "";
 
@@ -106,7 +107,7 @@ async function checkCityAPI(city) {
   }
 }
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', async function(event) {
   if (event.ctrlKey && event.key === 'k') {
     if (document.querySelector('.search-main')) {
       if (document.activeElement === searchInput) return;
@@ -116,10 +117,23 @@ document.addEventListener('keydown', function(event) {
     if (document.querySelector('.add-city-box')) {
       const selectedCity = inputCity();
       if (!selectedCity) return;
-      cities.push(selectedCity);
-      localStorage.setItem('cities', JSON.stringify(cities));
-      addCity(cities.length - 1);
-      fetchOtherCities(cities);
+      const isValid = await checkCityAPI(selectedCity);
+      if (!isValid) return;
+
+      addCity(idCounter);
+      fetchNewCity(selectedCity, idCounter);
+      setTimeout(() => {
+        const cityElement = document.querySelector(`.city-${idCounter}`);
+
+        if (cityElement) {
+          cities.push(cityElement.textContent);
+          idCounter++;
+          localStorage.setItem('cities', JSON.stringify(cities));
+        } else {
+          console.log('City not found');
+        }
+      } , 100);
+
       return;
     }
   }
@@ -137,13 +151,24 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('click', function (event) {
   const addCityBox = event.target.closest('.add-city-box');
   if (addCityBox) {
-    const selectedCity = inputCity();
-    if (!selectedCity) return;
-    cities.push(selectedCity);
-    localStorage.setItem('cities', JSON.stringify(cities));
-    addCity(cities.length - 1);
-    fetchOtherCities(cities);
-    return;
+      const selectedCity = inputCity();
+      if (!selectedCity) return;
+
+      addCity(idCounter);
+      fetchNewCity(selectedCity, idCounter);
+      setTimeout(() => {
+        const cityElement = document.querySelector(`.city-${idCounter}`);
+
+        if (cityElement) {
+          cities.push(cityElement.textContent);
+          idCounter++;
+          localStorage.setItem('cities', JSON.stringify(cities));
+        } else {
+          console.log('City not found');
+        }
+      } , 100);
+
+      return;
   }
 
   const changeCityIcon = event.target.closest('.change-city-icon');
@@ -175,4 +200,3 @@ document.addEventListener('click', function (event) {
     localStorage.setItem('cities', JSON.stringify(cities));
   }
 });
-
