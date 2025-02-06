@@ -21,8 +21,18 @@
   --spacing-xxlarge: 2rem;
 }
 
+/* change selection color  */
+::selection {
+  background-color: #293234;
+  color: var(--color-light-gray);
+}
+
 * {
   font-family: var(--font-family);
+}
+
+img {
+  user-select: none;
 }
 
 p {
@@ -415,6 +425,7 @@ main {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
   font-size: 1.3rem;
+  backdrop-filter: blur(1.5px);
 }
 
 .popup-container {
@@ -424,13 +435,14 @@ main {
   width: 70%;
   min-width: 30rem;
   max-width: 50rem;
-  min-height: 5rem;
   transform: translateX(-50%);
   background-color: var(--color-light-gray);
   padding: var(--spacing-medium);
   border-radius: 3px;
   display: flex;
   flex-direction: column;
+
+  transition: top 100ms;
 
   @media (max-width: 540px) {
     width: 90%;

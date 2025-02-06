@@ -176,6 +176,8 @@ document.addEventListener('keydown', async function(event) {
   if (event.key === 'Enter') {
     if (document.querySelector('.popup-suggestions')) {
       const box = document.querySelector('.popup-box');
+      const popupSuggestions = document.querySelector('.popup-suggestions');
+
       event.preventDefault();
       let cityName;
       try {
@@ -188,8 +190,10 @@ document.addEventListener('keydown', async function(event) {
       const isValid = await checkCityAPI(cityName);
       if (isValid) {
         if (box.getAttribute('use') === 'main') {
+          box.remove();
+          localStorage.setItem("mainCity", cityName);
           cities = cities.filter((city, index) => cities.indexOf(city) === index);
-          selectCity(cityName);
+          fetchCurrentCity(cityName);
           document.body.style.overflow = '';
         }
         if (box.getAttribute('use') === 'other') {
@@ -209,12 +213,14 @@ document.addEventListener('keydown', async function(event) {
             }
           } , 100);
         }
+      } else {
+      popupSuggestions.firstChild.style.borderTop = "2px solid #ee0000"
       }
     }
   }
 });
 
-document.addEventListener('click', function (event) {
+document.addEventListener('click', async function (event) {
   const addCityBox = event.target.closest('.add-city-box');
   if (addCityBox) {
       const selectedCity = inputCity("other");
@@ -264,6 +270,42 @@ document.addEventListener('click', function (event) {
     const cityElement = deleteCityIcon.closest('.city-group').querySelector('h2');
     cities = cities.filter(city => city !== cityElement.textContent);
     localStorage.setItem('cities', JSON.stringify(cities));
+  }
+
+  const popupSuggestions = document.querySelector('.popup-suggestions');
+  if (popupSuggestions) {
+    const cityName = event.target.textContent.split(",")[0];
+    const isValid = await checkCityAPI(cityName);
+    const box = document.querySelector('.popup-box');
+
+    if (isValid) {
+      if (box.getAttribute('use') === 'main') {
+        box.remove();
+        localStorage.setItem("mainCity", cityName);
+        cities = cities.filter((city, index) => cities.indexOf(city) === index);
+        fetchCurrentCity(cityName);
+        document.body.style.overflow = '';
+      }
+      if (box.getAttribute('use') === 'other') {
+        addCity(idCounter);
+        fetchNewCity(cityName, idCounter);
+        box.remove();
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          const cityElement = document.querySelector(`.city-${idCounter}`);
+
+          if (cityElement) {
+            cities.push(cityElement.textContent);
+            idCounter++;
+            localStorage.setItem('cities', JSON.stringify(cities));
+          } else {
+            console.log('City not found');
+          }
+        } , 100);
+      }
+    } else {
+      popupSuggestions.firstChild.style.borderTop = "2px solid #ee0000"
+    }
   }
 });
 
