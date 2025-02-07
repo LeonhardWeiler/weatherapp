@@ -1,5 +1,4 @@
-export function createStructure() {
-const structure = `
+let structure = `
     <header class="container">
       <div class="heading">
         <h1 class="text-xl temp-current"></h1>
@@ -109,8 +108,9 @@ const structure = `
     </footer>
 `;
 
-const body = document.querySelector('body');
-body.innerHTML = structure;
+export function createStructure() {
+  const body = document.querySelector('body');
+  body.innerHTML = structure;
 }
 
 export function addCity(id) {
@@ -178,4 +178,116 @@ export function inputCity(use) {
 
   const popupInput = document.querySelector('.popup-input');
   popupInput.focus();
+}
+
+export function addLastCity(data) {
+  structure = `
+      <header class="container">
+      <div class="heading">
+        <h1 class="text-xl temp-current">${data.temp}</h1>
+        <img class="icon-heading img-current" src="${data.img}">
+      </div>
+      <div class="subtitle">
+        <div class="which-city">
+          <p class="city name-current">${data.name}</p>
+          <div class="change-city-icon">
+            <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M13.294 7.959c.259-.324.207-.796-.116-1.055s-.795-.208-1.055.115l1.171.94zM6.811 14.849l.568.49c.006-.006.012-.013.017-.02l-.585-.47zM6.64 15.267l-.748-.049-.001.014.75.035zM6.5 18.29l-.749-.035a.805.805 0 00.003.112l.746-.077zM7.287 18.977l.025.75c.05-.002.1-.009.148-.02l-.173-.73zM10.287 18.266l.173.73.012-.003-.185-.727zM10.672 18.022l.579.477.006-.008-.585-.469zM17.297 10.959c.259-.324.207-.796-.116-1.055s-.795-.208-1.055.115l1.171.94zM12.127 7.021c-.259.324-.207.796.116 1.055s.796.208 1.055-.115l-1.171-.94zM14.3 5.51l.585.469c.01-.012.02-.025.03-.038l-.615-.431zM15.929 5.19l.48-.576a.8.8 0 00-.075-.055l-.405.631zM18.166 7.052l.531-.53a.8.8 0 00-.051-.047l-.48.577zM18.503 7.873h.75v-.001l-.75.001zM18.157 8.69l-.525-.536c-.021.021-.041.043-.06.066l.585.47zM16.127 10.02c-.26.323-.208.795.115 1.055.324.259.796.208 1.055-.115l-1.17-.94zM13.454 7.379c-.061-.41-.443-.692-.853-.63-.41.062-.692.444-.631.854l1.484-.224zM16.813 11.233c.41-.056.698-.434.642-.844-.056-.41-.434-.698-.844-.643l.202 1.487zM12.124 7.021L6.226 14.38l1.17.939 5.898-7.359-1.17-.939zM6.243 14.359a1.6 1.6 0 00-.35.86l1.497.098a.792.792 0 00.01-.023l-1.157-.935zM5.891 15.232l-.14 3.023 1.498.07.14-3.023-1.498-.07zM5.754 18.367c.082.792.762 1.386 1.558 1.36l-.05-1.499c-.003 0-.005 0-.006 0a.2.2 0 01-.005-.002l-.006-.005a.2.2 0 01-.004-.006l-1.49.152zM7.46 19.707l3-0.711-.346-1.46-3 .711.346 1.46zM10.472 18.993c.305-.078.578-.251.779-.494l-1.157-.954c.002-.003.005-.005.009-.006l.369 1.454zM11.257 18.491l6.04-7.532-1.17-.939-6.04 7.532 1.17.939zM13.297 7.959l1.588-1.98-1.17-.938-1.588 1.98 1.17.938zM14.914 5.941c.139-.197.408-.25.611-.12l.81-1.263c-.88-.563-2.047-.334-2.648.52l1.227.863zM15.449 5.766l2.237 1.862.96-1.153-2.237-1.862-.96 1.153zM17.635 7.582c.076.076.118.18.117.287h1.5c.003-.508-.197-.996-.556-1.355l-.561 1.068zM17.753 7.869c-.001.107-.045.21-.121.285l1.05 1.072c.363-.355.568-.84.571-1.347l-1.5-.01zM17.572 8.22l-1.445 1.8 1.17.939 1.445-1.8-1.17-.939zM11.97 7.601c.35 2.331 2.507 3.949 4.843 3.632l-.202-1.486c-1.523.207-2.929-.848-3.157-2.368l-1.484.222z"
+                fill="#000000"
+              />
+            </svg>
+          </div>
+        </div>
+        <p class="description desc-current">${data.desc}</p>
+      </div>
+    </header>
+    <main class="container">
+      <div class="col-12 timeline">
+        <div class="line">
+          <div class="time" id="time-12">
+            <img class="icon img-current" src="${data.img}">
+            <div class="time-temp temp-current">${data.temp}</div>
+            <div class="line-v"></div>
+            <div class="time-number time-current">${data.time}</div>
+          </div>
+          <div class="time" id="time-13">
+            <img class="icon img-current-1" src="${data.img1}">
+            <div class="time-temp temp-current-1">${data.temp1}</div>
+            <div class="line-v"></div>
+            <div class="time-number time-current-1">${data.time1}</div>
+          </div>
+          <div class="time" id="time-14">
+            <img class="icon img-current-2" src="${data.img2}">
+            <div class="time-temp temp-current-2">${data.temp2}</div>
+            <div class="line-v"></div>
+            <div class="time-number time-current-2">${data.time2}</div>
+          </div>
+          <div class="time" id="time-15">
+            <img class="icon img-current-3" src="${data.img3}">
+            <div class="time-temp temp-current-3">${data.temp3}</div>
+            <div class="line-v"></div>
+            <div class="time-number time-current-3">${data.time3}</div>
+          </div>
+          <div class="time" id="time-16">
+            <img class="icon img-current-4" src="${data.img4}">
+            <div class="time-temp temp-current-4">${data.temp4}</div>
+            <div class="line-v"></div>
+            <div class="time-number time-current-4">${data.time4}</div>
+          </div>
+          <div class="time" id="time-17">
+            <img class="icon img-current-5" src="${data.img5}">
+            <div class="time-temp temp-current-5">${data.temp5}</div>
+            <div class="line-v"></div>
+            <div class="time-number time-current-5">${data.time5}</div>
+          </div>
+        </div>
+      </div>
+      <div class="row next-days">
+        <div class="col-12 col-md-4 next-day-container">
+          <h3 class="day text-l day-1">${data.day1}</h3>
+          <p class="min-tmp min-temp-day-1">${data.day1Min}</p>
+          <div class="line-tmp med-temp-day-1"></div>
+          <p class="max-tmp max-temp-day-1">${data.day1Max}</p>
+        </div>
+        <div class="col-12 col-md-4 next-day-container">
+          <h3 class="day text-l day-2">${data.day2}</h3>
+          <div class="min-tmp min-temp-day-2">${data.day2Min}</div>
+          <div class="line-tmp med-temp-day-2"></div>
+          <div class="max-tmp max-temp-day-2">${data.day2Max}</div>
+        </div>
+        <div class="col-12 col-md-4 next-day-container">
+          <h3 class="day text-l day-3">${data.day3}</h3>
+          <div class="min-tmp min-temp-day-3">${data.day3Min}</div>
+          <div class="line-tmp med-temp-day-3"></div>
+          <div class="max-tmp max-temp-day-3">${data.day3Max}</div>
+        </div>
+        <div class="col-12 col-md-4 next-day-container">
+          <h3 class="day text-l day-4">${data.day4}</h3>
+          <div class="min-tmp min-temp-day-4">${data.day4Min}</div>
+          <div class="line-tmp med-temp-day-4"></div>
+          <div class="max-tmp max-temp-day-4">${data.day4Max}</div>
+        </div>
+        <div class="col-12 col-md-4 next-day-container">
+          <h3 class="day text-l day-5">${data.day5}</h3>
+          <div class="min-tmp min-temp-day-5">${data.day5Min}</div>
+          <div class="line-tmp med-temp-day-5"></div>
+          <div class="max-tmp max-temp-day-5">${data.day5Max}</div>
+        </div>
+        <div class="col-12 col-md-4 next-day-container">
+          <h3 class="day text-l day-6">${data.day6}</h3>
+          <div class="min-tmp min-temp-day-6">${data.day6Min}</div>
+          <div class="line-tmp med-temp-day-6"></div>
+          <div class="max-tmp max-temp-day-6">${data.day6Max}</div>
+        </div>
+      </div>
+    </main>
+    <footer class="container">
+      <div class="other-city-grid">
+        <div class="add-city-box">
+          <div class="plus-icon"></div>
+        </div>
+      </div>
+    </footer>
+`;
 }

@@ -1,4 +1,4 @@
-import { createStructure, addCity, inputCity } from "./blueprint.js";
+import { createStructure, addCity, inputCity, addLastCity } from "./blueprint.js";
 import { fetchCurrentCity, fetchOtherCities, fetchNewCity } from "./weather.js";
 
 const searchInput = document.querySelector(".search-main");
@@ -12,6 +12,11 @@ let idCounter = 0;
 searchInput.value = "";
 
 if (localStorage.getItem("mainCity")) {
+  if (localStorage.getItem("lastCity")) {
+    const lastCity = JSON.parse(localStorage.getItem("lastCity"));
+    addLastCity(lastCity);
+
+  }
   createStructure();
   fetchCurrentCity(localStorage.getItem("mainCity"));
   cities = JSON.parse(localStorage.getItem("cities")) || [];
@@ -75,11 +80,39 @@ suggestionsContainer.addEventListener("click", async (event) => {
   }
 });
 
+function fillCurrentCityData() {
+  const data = {
+    name: document.querySelector(".name-current")?.textContent || "",
+    temp: document.querySelector(".temp-current")?.textContent || "",
+    img: document.querySelector(".img-current")?.src || "",
+    desc: document.querySelector(".desc-current")?.textContent || "",
+    time: document.querySelector(".time-current")?.textContent || "",
+  };
+
+  for (let i = 1; i <= 5; i++) {
+    data[`img${i}`] = document.querySelector(`.img-current-${i}`)?.src || "";
+    data[`temp${i}`] = document.querySelector(`.temp-current-${i}`)?.textContent || "";
+    data[`time${i}`] = document.querySelector(`.time-current-${i}`)?.textContent || "";
+  }
+
+  for (let i = 1; i <= 6; i++) {
+    data[`day${i}`] = document.querySelector(`.day-${i}`)?.textContent || "";
+    data[`day${i}Min`] = document.querySelector(`.min-temp-day-${i}`)?.textContent || "";
+    data[`day${i}Max`] = document.querySelector(`.max-temp-day-${i}`)?.textContent || "";
+  }
+
+  addLastCity(data);
+  localStorage.setItem("lastCity", JSON.stringify(data));
+}
+
 function selectCity(cityName) {
   suggestionsContainer.style.display = "none";
   localStorage.setItem("mainCity", cityName);
   createStructure();
   fetchCurrentCity(cityName);
+  setTimeout(() => {
+    fillCurrentCityData();
+  }, 100);
   cities = JSON.parse(localStorage.getItem("cities")) || [];
   cities = cities.filter((city, index) => cities.indexOf(city) === index);
   for (let i = 0; i < cities.length; i++) {
@@ -170,6 +203,9 @@ document.addEventListener('keydown', async function(event) {
     localStorage.removeItem('mainCity');
     localStorage.setItem('mainCity', selectedCity);
     fetchCurrentCity(selectedCity);
+    setTimeout(() => {
+      fillCurrentCityData();
+    }, 100);
     return;
   }
 
@@ -194,6 +230,9 @@ document.addEventListener('keydown', async function(event) {
           localStorage.setItem("mainCity", cityName);
           cities = cities.filter((city, index) => cities.indexOf(city) === index);
           fetchCurrentCity(cityName);
+          setTimeout(() => {
+            fillCurrentCityData();
+          }, 100);
           document.body.style.overflow = '';
         }
         if (box.getAttribute('use') === 'other') {
@@ -250,6 +289,9 @@ document.addEventListener('click', async function (event) {
     if (!selectedCity) return;
     localStorage.setItem('mainCity', selectedCity);
     fetchCurrentCity(selectedCity);
+    setTimeout(() => {
+      fillCurrentCityData();
+    }, 100);
     return;
   }
 
@@ -284,6 +326,9 @@ document.addEventListener('click', async function (event) {
         localStorage.setItem("mainCity", cityName);
         cities = cities.filter((city, index) => cities.indexOf(city) === index);
         fetchCurrentCity(cityName);
+        setTimeout(() => {
+          fillCurrentCityData();
+        }, 100);
         document.body.style.overflow = '';
       }
       if (box.getAttribute('use') === 'other') {
