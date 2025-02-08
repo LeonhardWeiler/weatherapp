@@ -14,9 +14,10 @@ searchInput.value = "";
 if (localStorage.getItem("mainCity")) {
   if (localStorage.getItem("lastCity")) {
     const lastCity = JSON.parse(localStorage.getItem("lastCity"));
+    changeTitle(lastCity);
     addLastCity(lastCity);
-
   }
+
   createStructure();
   fetchCurrentCity(localStorage.getItem("mainCity"));
   cities = JSON.parse(localStorage.getItem("cities")) || [];
@@ -27,6 +28,10 @@ if (localStorage.getItem("mainCity")) {
     addCity(i);
   }
   fetchOtherCities(cities);
+}
+
+function changeTitle(data) {
+  document.title = `${data.name} ${data.temp}`;
 }
 
 async function fetchCities(query, container) {
@@ -102,6 +107,7 @@ function fillCurrentCityData() {
   }
 
   addLastCity(data);
+  changeTitle(data);
   localStorage.setItem("lastCity", JSON.stringify(data));
 }
 
