@@ -46,11 +46,11 @@ function fetchWeather(city) {
       if (weather.cod === 200) {
         updateCurrentWeather(weather);
       } else {
-        console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
+        console.error(`Failed to fetch weather: ${weather.message}`);
       }
     })
     .catch((error) => {
-      console.error("API Fehler:", error);
+      console.error("API error:", error);
     });
 }
 
@@ -65,11 +65,11 @@ function fetchForecast(city) {
         updateWeatherForDays(forecast.list);
         updateWeekdays();
       } else {
-        console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
+        console.error(`Failed to fetch forecast: ${forecast.message}`);
       }
     })
     .catch((error) => {
-      console.error("API Fehler:", error);
+      console.error("API error:", error);
     });
 }
 
@@ -94,7 +94,7 @@ function updateForecast(forecast) {
 }
 
 function getWeekdays(amount) {
-  const weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const today = new Date();
   const nextDays = [];
 
@@ -179,11 +179,11 @@ function fetchWeatherOtherCities(cityArray) {
       if (weather.cod === 200) {
         updateOtherCitiesCurrentWeather(weather, index);
       } else {
-        console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
+        console.error(`Failed to fetch weather: ${weather.message}`);
       }
     })
     .catch((error) => {
-      console.error("API Fehler:", error);
+      console.error("API error:", error);
     });
   });
 }
@@ -198,11 +198,11 @@ function fetchForecastOtherCities(city) {
       if (forecast.cod === "200") {
         updateOtherCitiesForecast(forecast, index);
       } else {
-        console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
+        console.error(`Failed to fetch forecast: ${forecast.message}`);
       }
     })
     .catch((error) => {
-      console.error("API Fehler:", error);
+      console.error("API error:", error);
     });
   });
 }
@@ -267,7 +267,7 @@ function updateOtherCitiesCurrentWeather(weather, id) {
   nameElem.textContent = name;
   minTempElem.textContent = `${minTemp}°C`;
   maxTempElem.textContent = `${maxTemp}°C`;
-  todayElem.textContent = "Heute";
+  todayElem.textContent = "Today";
 
   imgElem.src = `https://openweathermap.org/img/wn/${icon}.png`;
   imgElem.alt = desc;
@@ -282,11 +282,11 @@ function fetchWeatherNewCity(city, index) {
       if (weather.cod === 200) {
         updateOtherCitiesCurrentWeather(weather, index);
       } else {
-        console.error(`Fehler beim Abrufen der Daten: ${weather.message}`);
+        console.error(`Failed to fetch weather: ${weather.message}`);
       }
     })
     .catch((error) => {
-      console.error("API Fehler:", error);
+      console.error("API error:", error);
     });
 }
 
@@ -299,11 +299,11 @@ function fetchForecastNewCity(city, index) {
       if (forecast.cod === "200") {
         updateOtherCitiesForecast(forecast, index);
       } else {
-        console.error(`Fehler beim Abrufen der Vorhersage: ${forecast.message}`);
+        console.error(`Failed to fetch forecast: ${forecast.message}`);
       }
     })
     .catch((error) => {
-      console.error("API Fehler:", error);
+      console.error("API error:", error);
     });
 }
 
