@@ -46,7 +46,7 @@ async function fetchCities(query, container) {
     currentSuggestions = await response.json();
     showSuggestions(currentSuggestions, container);
   } catch (error) {
-    console.error("Fehler beim Laden der Städte:", error);
+    console.error("Failed to load cities:", error);
   }
 }
 
@@ -73,7 +73,7 @@ suggestionsContainer.addEventListener("click", async (event) => {
   if (isValid) {
     selectCity(cityName);
   } else {
-    console.error("Stadt nicht gefunden oder ungültig.");
+    console.error("City not found or invalid.");
     if (searchMain) {
       const searchMain = document.querySelector(".search-main");
       searchMain.style.outline = "2px solid #ee0000";
@@ -141,7 +141,7 @@ searchInput.addEventListener("keydown", async (event) => {
     if (isValid) {
       selectCity(cityName);
     } else {
-      console.error("Stadt nicht gefunden oder ungültig.");
+      console.error("City not found or invalid.");
       const searchMain = document.querySelector(".search-main");
       searchMain.style.outline = "2px solid #ee0000";
     }
@@ -155,7 +155,7 @@ async function checkCityAPI(city) {
     const response = await fetch(apiUrl);
     return response.ok;
   } catch (error) {
-    console.error("Fehler bei der API-Anfrage:", error);
+    console.error("API request failed:", error);
     return false;
   }
 }

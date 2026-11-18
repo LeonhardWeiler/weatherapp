@@ -381,10 +381,10 @@ main {
 
 .suggestions {
   position: absolute;
-  left: 50%; /* Verschiebung um 15px nach rechts */
+  left: 50%;
   top: calc(100% + 5px);
-  transform: translateX(-50%); /* Zentriert den Container basierend auf der Mitte */
-  width: 77%; /* Passt die Breite an, damit sie korrekt bleibt */
+  transform: translateX(-50%);
+  width: 77%;
   max-width: 985px;
 
   div {
